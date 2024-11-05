@@ -48,6 +48,7 @@
                             </p>
                         </a>
                     </li>
+                    
                     <li class="nav-item">
                         <a href="{{ route('clases') }}" class="nav-link @yield('clase')">
                             <i class="nav-icon fas fa-th"></i>
@@ -60,7 +61,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-building"></i>
                             <p>
-                                ENTIDADES
+                                ORGANIZACIONES
                                 <i class="fas fa-angle-left right"></i>
                                 <span class="badge badge-info right">2</span>
                             </p>
