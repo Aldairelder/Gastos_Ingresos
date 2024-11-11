@@ -35,7 +35,7 @@
                 <th>GASTO</th>
                 <th>TOTAL</th>
                 <th>STATUS</th>
-                <th>REGISTRADO</th>
+                <th>FECHA</th>
                 <th style="width: 50px"></th>
               </tr>
             </thead>
@@ -46,7 +46,7 @@
                 <td class="align-middle">{{ $loop->iteration }}</td>
                 
                 <td class="align-middle"><strong>{{ $rs->serie}}</strong> I {{ $rs->nrodoc }}</td>
-                <td class="align-middle">{{ $rs->clase }}</td>
+                <td class="align-middle">{{ $rs->idclase }}</td>
                 <td class="align-middle">{{ $rs->titulo }}</td>
                 <td class="align-middle">{{ $rs->total }}</td>
                 <td class="align-middle">
@@ -56,13 +56,13 @@
                   <span class="right badge badge-danger">CANCELADO</span>
                   @endif
                 </td>
-                <td class="align-middle" title="{{ $rs->created_at }}">{{ $rs->created_at->diffForHumans() }}</td>
-                <td class="align-middle">
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <a href="{{ route('gastos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                    
-                  </div>
-                </td>
+                <td class="align-middle">{{ $rs->created_at }}</td>
+                  <td class="align-middle">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                      <a href="{{ route('gastos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                    </div>
+                  </td>
+
               </tr>
               @includeIf('gastos.modal.delete')
               @endforeach
@@ -80,7 +80,7 @@
                 <th>GASTO</th>
                 <th>TOTAL</th>
                 <th>STATUS</th>
-                <th>REGISTRADO</th>
+                <th>FECHA</th>
                 <th style="width: 50px"></th>
               </tr>
             </tfoot>
