@@ -7,6 +7,7 @@
   <title>{{ config('app.name') }}</title>
   <link rel="shortcut icon" href="{{ asset('dist/img/BSNTS.png') }}" type="image/x-icon">
   @include('includes.styles')
+  
 </head>
 
 <body class="hold-transition sidebar-mini">

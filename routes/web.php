@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasesController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\GastosController;
+use App\Http\Controllers\ReportGastosController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IngresosController;
 use App\Http\Controllers\PermisosController;
@@ -59,7 +60,11 @@ route::middleware('auth')->group(function () {
     Route::put('editar/{id}', 'update')->name('gastos.update');
     Route::delete('destroy/{id}', 'destroy')->name('gastos.destroy');
   });
+  Route::controller(ReportGastosController::class)->prefix('reportgastos')->group(function () {
+    Route::get('', 'index')->name('reportgastos');
+    Route::get('show/{id}', 'show')->name('gastos.show');
 
+  });
   Route::controller(EmpresasController::class)->prefix('empresas')->group(function () {
     Route::get('', 'index')->name('empresas');
 

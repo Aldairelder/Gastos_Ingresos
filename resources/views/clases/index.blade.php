@@ -16,7 +16,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">.:. Listado - Clases .:.</h3>
+                    <h3 class="card-title">.:. Listado - TIPOS .:.</h3>
                     <div class="card-tools">
                         <div class="btn btn-tool">
                             <a href="{{ route('clases.create') }}" class="btn btn-primary">Añadir</a>
@@ -30,7 +30,7 @@
                             <thead>
                                 <tr>
                                     <th style="width: 50px">#</th>
-                                    <th>CLASES</th>
+                                    <th>TIPOS</th>
                                     <th>REGISTRADO</th>
                                     <th style="width: 50px"></th>
                                 </tr>
@@ -70,7 +70,7 @@
                             <tfoot>
                                 <tr>
                                     <th style="width: 50px">#</th>
-                                    <th>CLASES</th>
+                                    <th>TIPOS</th>
                                     <th>REGISTRADO</th>
                                     <th style="width: 50px"></th>
                                 </tr>

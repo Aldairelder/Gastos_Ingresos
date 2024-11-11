@@ -53,7 +53,7 @@
                         <a href="{{ route('clases') }}" class="nav-link @yield('clase')">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
-                                CLASES
+                                TIPOS
                             </p>
                         </a>
                     </li>
@@ -94,6 +94,20 @@
                             <p>Ingresos</p>
                         </a>
                     </li>
+                    <li class="nav-header">REPORTES</li>
+                    <li class="nav-item">
+                        <a href="{{ route('reportgastos') }}" class="nav-link @yield('reportgastos')">
+                            <i class="nav-icon fas fa-file-invoice-dollar text-danger"></i>
+                            <p>Gastos</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('ingresos') }}" class="nav-link @yield('ingreso')">
+                            <i class="nav-icon fas fa-dollar-sign text-success"></i>
+                            <p>Ingresos</p>
+                        </a>
+                    </li>
+                    
                     <li class="nav-header">PERSONAL</li>
                     <li class="nav-item">
                         <a href="{{ route('trabajadores') }}" class="nav-link @yield('trabajador')">
