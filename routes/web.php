@@ -5,6 +5,7 @@ use App\Http\Controllers\ClasesController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\GastosController;
 use App\Http\Controllers\ReportGastosController;
+use App\Http\Controllers\ReporteIngresosController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IngresosController;
 use App\Http\Controllers\PermisosController;
@@ -62,6 +63,11 @@ route::middleware('auth')->group(function () {
   });
   Route::controller(ReportGastosController::class)->prefix('reportgastos')->group(function () {
     Route::get('', 'index')->name('reportgastos');
+    Route::get('show/{id}', 'show')->name('gastos.show');
+
+  });
+  Route::controller(ReporteIngresosController::class)->prefix('reportingresos')->group(function () {
+    Route::get('', 'index')->name('reportingresos');
     Route::get('show/{id}', 'show')->name('gastos.show');
 
   });

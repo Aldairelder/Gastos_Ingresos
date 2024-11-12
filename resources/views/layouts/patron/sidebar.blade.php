@@ -102,7 +102,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('ingresos') }}" class="nav-link @yield('ingreso')">
+                        <a href="{{ route('reportingresos') }}" class="nav-link @yield('reportingresos')">
                             <i class="nav-icon fas fa-dollar-sign text-success"></i>
                             <p>Ingresos</p>
                         </a>

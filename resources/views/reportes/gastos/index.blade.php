@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('gasto', 'active')
 @section('titulo', 'Gastos')
 @section('contenido')
@@ -94,3 +95,34 @@
   <!--/. container-fluid -->
 </section>
 @endsection
+
+@push('scripts')
+<!-- Incluyendo jQuery y DataTables (con los estilos de Bootstrap para DataTables) -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+<!-- Estilos de DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+<script>
+  $(document).ready(function() {
+    $('#example1').DataTable({
+      "language": {
+        "lengthMenu": "Mostrar _MENU_ registros por página",
+        "zeroRecords": "No se encontraron registros",
+        "info": "Mostrando página _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay registros disponibles",
+        "infoFiltered": "(filtrado de _MAX_ registros en total)",
+        "search": "Buscar:"
+      },
+      "paging": true,  // Habilitar paginación
+      "lengthChange": true,  // Permitir cambiar el número de registros mostrados por página
+      "searching": true,  // Habilitar búsqueda
+      "ordering": true,  // Habilitar ordenamiento
+      "info": true,  // Mostrar información sobre la tabla
+      "autoWidth": false  // Desactivar el ajuste automático de ancho de columna
+    });
+  });
+</script>
+@endpush
