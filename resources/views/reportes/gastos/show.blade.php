@@ -6,11 +6,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <div class="callout callout-info">
-          <h5><i class="fas fa-info"></i> Nota :</h5>
-          Esta página ha sido mejorada para su impresión. Haga clic en el botón Imprimir en la parte inferior
-          de la factura para realizar la prueba.
-        </div>
+        
         <div class="invoice p-3 mb-3">
           <div class="row">
             <div class="col-12">

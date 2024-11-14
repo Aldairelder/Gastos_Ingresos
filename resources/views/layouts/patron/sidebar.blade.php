@@ -98,13 +98,13 @@
                     <li class="nav-item">
                         <a href="{{ route('reportgastos') }}" class="nav-link @yield('reportgastos')">
                             <i class="nav-icon fas fa-file-invoice-dollar text-danger"></i>
-                            <p>Gastos</p>
+                            <p>Reporte 1 - Gastos</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('reportingresos') }}" class="nav-link @yield('reportingresos')">
                             <i class="nav-icon fas fa-dollar-sign text-success"></i>
-                            <p>Ingresos</p>
+                            <p>Reporte 2 - Ingresos</p>
                         </a>
                     </li>
                     

@@ -17,17 +17,17 @@
     @endif
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">.:. Listado - Gastos .:. </h3>
+        <h3 class="card-title no-print">.:. Listado - Gastos .:. </h3>
         <div class="card-tools">
           <div class="btn btn-tool">
-            <a class="btn btn-light pull-right" onclick="javascript:window.print()">IMPRIMIR</a>
+            <a class="btn btn-light pull-right no-print" onclick="javascript:window.print()">IMPRIMIR</a>
           </div>
         </div>
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <div class="table-responsive">
-          <table id="example1" class="table table-striped table-bordered table-condensed table-hover">
+        <div class="table-responsive ">
+          <table id="example1" class="table table-striped table-bordered table-condensed table-hover ">
             <thead>
               <tr>
                 <th style="width: 50px">#</th>
@@ -47,7 +47,7 @@
                 <td class="align-middle">{{ $loop->iteration }}</td>
                 
                 <td class="align-middle"><strong>{{ $rs->serie}}</strong> I {{ $rs->nrodoc }}</td>
-                <td class="align-middle">{{ $rs->idclase }}</td>
+                <td class="align-middle">{{ $rs->idclase }} (Gastos)</td>
                 <td class="align-middle">{{ $rs->titulo }}</td>
                 <td class="align-middle">{{ $rs->total }}</td>
                 <td class="align-middle">
@@ -60,7 +60,7 @@
                 <td class="align-middle">{{ $rs->created_at }}</td>
                   <td class="align-middle">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                      <a href="{{ route('gastos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                      <a href="{{ route('gastos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye">VER</i></a>
                     </div>
                   </td>
 
@@ -121,8 +121,16 @@
       "searching": true,  // Habilitar búsqueda
       "ordering": true,  // Habilitar ordenamiento
       "info": true,  // Mostrar información sobre la tabla
-      "autoWidth": false  // Desactivar el ajuste automático de ancho de columna
+      "autoWidth": false,  // Desactivar el ajuste automático de ancho de columna
+      "initComplete": function() {
+        // Añadir la clase 'no-print' a los elementos de paginación y otros controles
+        $('.dataTables_paginate').addClass('no-print'); // Paginação
+        $('.dataTables_length').addClass('no-print'); // Cambiar número de registros por página
+        $('.dataTables_filter').addClass('no-print'); // Barra de búsqueda
+        $('.dataTables_info').addClass('no-print'); // Información de la página actual
+      }
     });
   });
 </script>
+
 @endpush

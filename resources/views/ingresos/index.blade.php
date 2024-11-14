@@ -56,7 +56,7 @@
                 <td class="align-middle" title="{{ $rs->created_at }}">{{ $rs->created_at->diffForHumans() }}</td>
                 <td class="align-middle">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <a href="{{ route('ingresos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('ingresos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye"></i>VER</a>
                     <a data-target="#modal-delete-{{ $rs->id }}" type="button" data-toggle="modal" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                   </div>
                 </td>

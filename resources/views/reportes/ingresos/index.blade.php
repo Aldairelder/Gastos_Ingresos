@@ -52,7 +52,7 @@
                   <td class="align-middle" title="{{ $rs->created_at }}">{{ $rs->created_at->diffForHumans() }}</td>
                   <td class="align-middle">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                      <a href="{{ route('ingresos.show', $rs->id) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                      <a href="{{ route('ingresos.show', $rs->id) }}" class="btn btn-info"><i class="fas fa-eye">VER</i></a>
                     </div>
                   </td>
                 </tr>
