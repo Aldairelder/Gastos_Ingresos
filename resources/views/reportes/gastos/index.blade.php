@@ -26,8 +26,23 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <div class="table-responsive ">
-          <table id="example1" class="table table-striped table-bordered table-condensed table-hover ">
+        <!-- Formulario para Filtrar por Fechas -->
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="fecha_inicio">Fecha de Inicio</label>
+            <input type="date" id="fecha_inicio" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label for="fecha_fin">Fecha de Fin</label>
+            <input type="date" id="fecha_fin" class="form-control">
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button id="filtrar" class="btn btn-info">Filtrar</button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table id="example1" class="table table-striped table-bordered table-condensed table-hover">
             <thead>
               <tr>
                 <th style="width: 50px">#</th>
@@ -40,16 +55,15 @@
                 <th style="width: 50px"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="gasto-list">
             @if ($gastos->count() > 0)
               @foreach ($gastos as $rs)
-              <tr>
+              <tr data-fecha="{{ $rs->created_at->toDateString() }}">
                 <td class="align-middle">{{ $loop->iteration }}</td>
-                
                 <td class="align-middle"><strong>{{ $rs->serie}}</strong> I {{ $rs->nrodoc }}</td>
-                <td class="align-middle">{{ $rs->idclase }} (Gastos)</td>
+                <td class="align-middle">{{ $rs->clase->clase ?? 'Sin Clase' }}</td>
                 <td class="align-middle">{{ $rs->titulo }}</td>
-                <td class="align-middle">{{ $rs->total }}</td>
+                <td class="align-middle">{{ 'S/. ' . number_format($rs->total, 2) }}</td>
                 <td class="align-middle">
                   @if ($rs->estado == 1)
                   <span class="right badge badge-success">EMITIDO</span>
@@ -58,20 +72,19 @@
                   @endif
                 </td>
                 <td class="align-middle">{{ $rs->created_at }}</td>
-                  <td class="align-middle">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                      <a href="{{ route('gastos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye">VER</i></a>
-                    </div>
-                  </td>
-
+                <td class="align-middle">
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{{ route('gastos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye">VER</i></a>
+                  </div>
+                </td>
               </tr>
               @includeIf('gastos.modal.delete')
               @endforeach
-              @else
-              <tr>
-                <td class="text-center" colspan="7">Sin registros existentes..</td>
-              </tr>
-              @endif
+            @else
+            <tr>
+              <td class="text-center" colspan="7">Sin registros existentes..</td>
+            </tr>
+            @endif
             </tbody>
             <tfoot>
               <tr>
@@ -107,7 +120,8 @@
 
 <script>
   $(document).ready(function() {
-    $('#example1').DataTable({
+    // Inicializar DataTable
+    const table = $('#example1').DataTable({
       "language": {
         "lengthMenu": "Mostrar _MENU_ registros por página",
         "zeroRecords": "No se encontraron registros",
@@ -116,21 +130,38 @@
         "infoFiltered": "(filtrado de _MAX_ registros en total)",
         "search": "Buscar:"
       },
-      "paging": true,  // Habilitar paginación
-      "lengthChange": true,  // Permitir cambiar el número de registros mostrados por página
-      "searching": true,  // Habilitar búsqueda
-      "ordering": true,  // Habilitar ordenamiento
-      "info": true,  // Mostrar información sobre la tabla
-      "autoWidth": false,  // Desactivar el ajuste automático de ancho de columna
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
       "initComplete": function() {
-        // Añadir la clase 'no-print' a los elementos de paginación y otros controles
-        $('.dataTables_paginate').addClass('no-print'); // Paginação
-        $('.dataTables_length').addClass('no-print'); // Cambiar número de registros por página
-        $('.dataTables_filter').addClass('no-print'); // Barra de búsqueda
-        $('.dataTables_info').addClass('no-print'); // Información de la página actual
+        $('.dataTables_paginate').addClass('no-print');
+        $('.dataTables_length').addClass('no-print');
+        $('.dataTables_filter').addClass('no-print');
+        $('.dataTables_info').addClass('no-print');
       }
+    });
+
+    // Filtrar por fechas
+    $('#filtrar').on('click', function() {
+      const fechaInicio = $('#fecha_inicio').val();
+      const fechaFin = $('#fecha_fin').val();
+
+      $('#gasto-list tr').each(function() {
+        const fechaRegistro = $(this).data('fecha');
+        if (fechaInicio && fechaFin) {
+          if (fechaRegistro >= fechaInicio && fechaRegistro <= fechaFin) {
+            $(this).show();
+          } else {
+            $(this).hide();
+          }
+        } else {
+          $(this).show(); // Si no hay filtro de fecha, mostrar todos
+        }
+      });
     });
   });
 </script>
-
 @endpush

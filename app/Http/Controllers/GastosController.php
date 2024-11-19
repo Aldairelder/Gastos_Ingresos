@@ -15,11 +15,14 @@ class GastosController extends Controller
    * Display a listing of the resource.
    */
   public function index()
-  {
-    $gastos = Gastos::orderby('id', 'DESC')
-      ->get();
+{
+    $gastos = Gastos::with('clase') // Cargar la relación 'clase'
+        ->orderBy('id', 'DESC')
+        ->get();
+
     return view('gastos.index', compact('gastos'));
-  }
+}
+
 
   /**
    * Show the form for creating a new resource.

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('gasto', 'active')
 @section('titulo', 'Gastos')
 @section('contenido')
@@ -14,6 +15,7 @@
       </button>
     </div>
     @endif
+
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">.:. Listado - Gastos .:. </h3>
@@ -25,27 +27,44 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
+        <div class="row mb-3">
+          <!-- Formulario para Filtrar por Fechas -->
+          <div class="col-md-4">
+            <label for="fecha_inicio">Fecha de Inicio</label>
+            <input type="date" id="fecha_inicio" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label for="fecha_fin">Fecha de Fin</label>
+            <input type="date" id="fecha_fin" class="form-control">
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button id="filtrar" class="btn btn-info">Filtrar</button>
+          </div>
+        </div>
+
         <div class="table-responsive">
           <table id="example1" class="table table-striped table-bordered table-condensed table-hover">
             <thead>
               <tr>
                 <th style="width: 50px">#</th>
                 <th>DOCUMENTO</th>
-                <th>GASTO</th>
+                <th>TIPO</th>
+                <th>TITULO</th>
                 <th>TOTAL</th>
                 <th>STATUS</th>
                 <th>REGISTRADO</th>
                 <th style="width: 50px"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="gasto-list">
             @if ($gastos->count() > 0)
               @foreach ($gastos as $rs)
-              <tr>
+              <tr data-fecha="{{ $rs->created_at->toDateString() }}">
                 <td class="align-middle">{{ $loop->iteration }}</td>
                 <td class="align-middle"><strong>{{ $rs->serie}}</strong> I {{ $rs->nrodoc }}</td>
+                <td class="align-middle">{{ $rs->clase->clase ?? 'Sin Clase' }}</td>
                 <td class="align-middle">{{ $rs->titulo }}</td>
-                <td class="align-middle">{{ $rs->total }}</td>
+                <td class="align-middle">{{ 'S/. ' . number_format($rs->total, 2) }}</td>
                 <td class="align-middle">
                   @if ($rs->estado == 1)
                   <span class="right badge badge-success">EMITIDO</span>
@@ -63,17 +82,18 @@
               </tr>
               @includeIf('gastos.modal.delete')
               @endforeach
-              @else
-              <tr>
-                <td class="text-center" colspan="7">Sin registros existentes..</td>
-              </tr>
-              @endif
+            @else
+            <tr>
+              <td class="text-center" colspan="7">Sin registros existentes..</td>
+            </tr>
+            @endif
             </tbody>
             <tfoot>
               <tr>
                 <th style="width: 50px">#</th>
                 <th>DOCUMENTO</th>
-                <th>GASTO</th>
+                <th>TIPO</th>
+                <th>TITULO</th>
                 <th>TOTAL</th>
                 <th>STATUS</th>
                 <th>REGISTRADO</th>
@@ -90,3 +110,60 @@
   <!--/. container-fluid -->
 </section>
 @endsection
+
+@push('scripts')
+<!-- Incluyendo jQuery y DataTables (con los estilos de Bootstrap para DataTables) -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+<!-- Estilos de DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+<script>
+  $(document).ready(function() {
+    // Inicializar DataTable
+    const table = $('#example1').DataTable({
+      "language": {
+        "lengthMenu": "Mostrar _MENU_ registros por página",
+        "zeroRecords": "No se encontraron registros",
+        "info": "Mostrando página _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay registros disponibles",
+        "infoFiltered": "(filtrado de _MAX_ registros en total)",
+        "search": "Buscar:"
+      },
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "initComplete": function() {
+        $('.dataTables_paginate').addClass('no-print');
+        $('.dataTables_length').addClass('no-print');
+        $('.dataTables_filter').addClass('no-print');
+        $('.dataTables_info').addClass('no-print');
+      }
+    });
+
+    // Filtrar por fechas
+    $('#filtrar').on('click', function() {
+      const fechaInicio = $('#fecha_inicio').val();
+      const fechaFin = $('#fecha_fin').val();
+
+      $('#gasto-list tr').each(function() {
+        const fechaRegistro = $(this).data('fecha');
+        if (fechaInicio && fechaFin) {
+          if (fechaRegistro >= fechaInicio && fechaRegistro <= fechaFin) {
+            $(this).show();
+          } else {
+            $(this).hide();
+          }
+        } else {
+          $(this).show(); // Si no hay filtro de fecha, mostrar todos
+        }
+      });
+    });
+  });
+</script>
+@endpush
