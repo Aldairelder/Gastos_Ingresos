@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('ingreso', 'active')
-@section('titulo', 'Ingresos')
+@section('titulo', 'Listado de Ingresos')
 @section('contenido')
 <section class="content">
   <!-- container-fluid -->

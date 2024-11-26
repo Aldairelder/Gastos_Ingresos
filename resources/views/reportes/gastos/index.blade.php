@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('gasto', 'active')
-@section('titulo', 'Gastos')
+@section('titulo', 'Listado de Gastos')
 @section('contenido')
 <section class="content">
   <!-- container-fluid -->
