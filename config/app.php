@@ -158,9 +158,7 @@ return [
     'providers' => ServiceProvider::defaultProviders()->merge([
         /*
          * Package Service Providers...
-         */
-        Maatwebsite\Excel\ExcelServiceProvider::class,  // Laravel Excel ServiceProvider
-
+         * /
         /*
          * Application Service Providers...
          */
@@ -183,7 +181,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,  // Alias for Excel facade
+        
     ])->toArray(),
 
 ];
