@@ -3,7 +3,6 @@
 @section('titulo', 'Gastos')
 @section('contenido')
     <section class="content">
-        <!-- container-fluid -->
         <div class="container-fluid">
             @if (count($errors) > 0)
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -19,7 +18,6 @@
                     </button>
                 </div>
             @endif
-            <!-- /.card -->
             <form action="{{ route('gastos.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <div class="row">
@@ -28,7 +26,6 @@
                             <div class="card-header">
                                 <h3 class="card-title">.:. Información - Registro .:.</h3>
                             </div>
-                            <!-- /.card-header -->
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -70,6 +67,15 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
+
+                                    <!-- Campo para el archivo -->
+                                    <div class="col-md-12">
+                                        <label class="form-label">Archivo</label>
+                                        <input type="file" name="archivo" id="archivo" class="form-control @error('archivo')is-invalid @enderror">
+                                        @error('archivo')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 mb-3">
@@ -91,17 +97,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
                         </div>
-                        <!-- /.card -->
                     </div>
-                    <!-- /.col -->
                     <div class="col-md-9">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">.:. Detalles - Registro .:.</h3>
                             </div>
-                            <!-- /.card-header -->
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-8 mb-3">
@@ -155,15 +157,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
                         </div>
-                        <!-- /.card -->
                     </div>
-                    <!-- /.col -->
                 </div>
-                <form>
+            </form>
         </div>
-        <!--/. container-fluid -->
     </section>
 @endsection
 @push('scripts')
@@ -203,7 +201,6 @@
                 fila += '<td class="align-middle text-center"><strong>S/ ' + parseFloat(subtotal[cont]).toFixed(2) +
                     '</strong></td>';
                 fila += '</tr>';
-                // fila += '" readonly></td><td> S/.' + parseFloat(subtotal[cont]).toFixed(2)  + '</td></tr>';
                 cont++;
                 limpiar();
                 $('#total_venta').html("<strong>S/ " + parseFloat(total).toFixed(2) + "</strong>");
@@ -220,24 +217,23 @@
 
         function limpiar() {
             $('#pdetalle').val("");
-            $('#pcantidad').val("0");
-            $('#pprecio').val("0");
+            $('#pcantidad').val("");
+            $('#pprecio').val("");
         }
 
         function evaluar() {
             if (total > 0) {
-                $('#guardar').show();
+                $("#guardar").show();
             } else {
-                $('#guardar').hide();
+                $("#guardar").hide();
             }
         }
 
         function eliminar(index) {
             total = total - subtotal[index];
-            $('#total_venta').html("<strong>S/. " + total + "</strong>");
+            $('#total_venta').html("<strong>S/ " + parseFloat(total).toFixed(2) + "</strong>");
             $('#total').val(parseFloat(total).toFixed(2));
-            $('#fila' + index).remove();
-
+            $("#fila" + index).remove();
             evaluar();
         }
     </script>

@@ -24,7 +24,9 @@
             <a href="{{ route('gastos.create') }}" class="btn btn-primary">Añadir</a>
           </div>
         </div>
+        
       </div>
+      
       <!-- /.card-header -->
       <div class="card-body">
         <div class="row mb-3">
@@ -52,6 +54,7 @@
                 <th>TITULO</th>
                 <th>TOTAL</th>
                 <th>STATUS</th>
+                <th>PDF</th>
                 <th>REGISTRADO</th>
                 <th style="width: 50px"></th>
               </tr>
@@ -70,6 +73,13 @@
                   <span class="right badge badge-success">EMITIDO</span>
                   @else
                   <span class="right badge badge-danger">CANCELADO</span>
+                  @endif
+                </td>
+                <td class="align-middle">
+                  @if ($rs->archivo)
+                    <a href="{{ asset('storage/' . $rs->archivo) }}" target="_blank" class="btn btn-info btn-sm">Ver PDF</a>
+                  @else
+                    <span>No disponible</span>
                   @endif
                 </td>
                 <td class="align-middle" title="{{ $rs->created_at }}">{{ $rs->created_at->diffForHumans() }}</td>
@@ -96,6 +106,7 @@
                 <th>TITULO</th>
                 <th>TOTAL</th>
                 <th>STATUS</th>
+                <th>PDF</th>
                 <th>REGISTRADO</th>
                 <th style="width: 50px"></th>
               </tr>

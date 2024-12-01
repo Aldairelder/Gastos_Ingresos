@@ -15,6 +15,7 @@ class Gastos extends Model
     'nrodoc',
     'titulo',
     'descripcion',
+    'archivo',
     'total',
   ];
 

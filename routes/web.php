@@ -143,4 +143,7 @@ route::middleware('auth')->group(function () {
     Route::get('{id}', 'index')->name('permisos');
     Route::post('store/{id}', 'store')->name('permisos.store');
   });
+
+  Route::get('ingresos/{id}/cancelar', [IngresosController::class, 'destroy'])->name('ingresos.cancelar');
+
 });

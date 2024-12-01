@@ -17,26 +17,34 @@
     @endif
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title no-print">.:. Listado - Gastos .:. </h3>
+        <h3 class="card-title ">.:. Reporte - Gastos .:. </h3>
         <div class="card-tools">
-          <div class="btn btn-tool">
-            <a class="btn btn-light pull-right no-print" onclick="javascript:window.print()">IMPRIMIR</a>
+          <div class="card-tools">
+            <div class="btn btn-tool">
+              <a class="btn btn-success no-print" href="#">
+                <i class="fas fa-file-excel"></i>
+              </a>
+              <a class="btn btn-light no-print" onclick="javascript:window.print()">
+                <i class="fas fa-print"></i>
+              </a>
+            </div>
           </div>
-        </div>
+          
+          </div>
       </div>
       <!-- /.card-header -->
       <div class="card-body">
         <!-- Formulario para Filtrar por Fechas -->
         <div class="row mb-3">
-          <div class="col-md-4">
+          <div class="col-md-4 no-print">
             <label for="fecha_inicio">Fecha de Inicio</label>
             <input type="date" id="fecha_inicio" class="form-control">
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 no-print">
             <label for="fecha_fin">Fecha de Fin</label>
             <input type="date" id="fecha_fin" class="form-control">
           </div>
-          <div class="col-md-4 d-flex align-items-end">
+          <div class="col-md-4 d-flex align-items-end no-print">
             <button id="filtrar" class="btn btn-info">Filtrar</button>
           </div>
         </div>
@@ -51,8 +59,9 @@
                 <th>GASTO</th>
                 <th>TOTAL</th>
                 <th>STATUS</th>
+                <th>PDF</th>
                 <th>FECHA</th>
-                <th style="width: 50px"></th>
+                <th style="width: 50px " class="no-print" ></th>
               </tr>
             </thead>
             <tbody id="gasto-list">
@@ -71,8 +80,15 @@
                   <span class="right badge badge-danger">CANCELADO</span>
                   @endif
                 </td>
-                <td class="align-middle">{{ $rs->created_at }}</td>
                 <td class="align-middle">
+                  @if ($rs->archivo)
+                    <a href="{{ asset('storage/' . $rs->archivo) }}" target="_blank" class="btn btn-info btn-sm">Ver PDF</a>
+                  @else
+                    <span>No disponible</span>
+                  @endif
+                </td>
+                <td class="align-middle">{{ $rs->created_at }}</td>
+                <td class="align-middle no-print">
                   <div class="btn-group" role="group" aria-label="Basic example">
                     <a href="{{ route('gastos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye">VER</i></a>
                   </div>
@@ -94,8 +110,9 @@
                 <th>GASTO</th>
                 <th>TOTAL</th>
                 <th>STATUS</th>
+                <th>PDF</th>
                 <th>FECHA</th>
-                <th style="width: 50px"></th>
+                <th  class="no-print"  style="width: 50px"></th>
               </tr>
             </tfoot>
           </table>

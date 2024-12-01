@@ -22,6 +22,7 @@ return new class extends Migration
                 ->on('gastos')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+          
         });
     }
 

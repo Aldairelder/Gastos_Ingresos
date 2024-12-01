@@ -40,28 +40,38 @@ class GastosController extends Controller
    */
   public function store(GastosRequest $request)
   {
-    try {
-      DB::beginTransaction();
-      // Crear el gasto principal
-      // $gasto = Gastos::create($request->only([
-      //     'idclase','nrodoc', 'titulo', 'descripcion', 'total'
-      // ]));
-      $data = $request->all();
-      $data['serie'] = '001';
-      $gasto = Gastos::create($data);
-      // Crear los detalles del gasto
-      foreach ($request->detalles as $detalle) {
-        $gasto->detalles()->create($detalle);
+      try {
+          DB::beginTransaction();
+  
+          // Validación y manejo del archivo
+          $archivoPath = null; // Valor predeterminado en caso de que no se cargue ningún archivo
+  
+          if ($request->hasFile('archivo')) {
+              // Obtener el archivo
+              $archivo = $request->file('archivo');
+              // Guardar el archivo en la carpeta 'gastos_archivos' en el almacenamiento público
+              $archivoPath = $archivo->store('gastos_archivos', 'public');
+          }
+  
+          // Crear el gasto principal
+          $data = $request->all();
+          $data['serie'] = '001';
+          $data['archivo'] = $archivoPath; // Guardar la ruta del archivo en la base de datos
+          $gasto = Gastos::create($data); // Crear el gasto
+  
+          // Crear los detalles del gasto
+          foreach ($request->detalles as $detalle) {
+              $gasto->detalles()->create($detalle);
+          }
+  
+          DB::commit();
+          return redirect()->route('gastos')->with('success', 'Registrado Correctamente!');
+      } catch (\Exception $e) {
+          DB::rollback();
+          return redirect()->route('gastos')->with('error', $e->getMessage());
       }
-      DB::commit();
-      return redirect()->route('gastos')->with('success', 'Registrado Correctamente!');
-    } catch (\Exception $e) {
-      DB::rollback();
-      return redirect()->route('gastos')->with('error', $e->getMessage());
-      // dd($e->getMessage());
-      // dd($request->all());
-    }
   }
+  
 
   /**
    * Display the specified resource.

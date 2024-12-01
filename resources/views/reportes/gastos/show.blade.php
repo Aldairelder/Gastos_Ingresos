@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('gasto', 'active')
-@section('titulo', 'Gastos')
+@section('titulo', 'Detalle de Gastos')
 @section('contenido')
 <section class="content">
   <div class="container-fluid">
@@ -38,28 +38,43 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>DETALLES</th>
-                    <th>CANTIDAD</th>
-                    <th>PRECIO</th>
-                    <th>MONTO</th>
+                    <th>DOCUMENTO</th>
+                    <th>TIPO</th>
+                    <th>GASTO</th>
+                    <th>STATUS</th>
+                    <th>FECHA</th>
+                    <th>CANTIDAD</th> <!-- Cantidad -->
+                    <th>PRECIO</th> <!-- Precio por unidad -->
+                
+                    <th>MONTO</th> <!-- Monto calculado (Cantidad * Precio) -->
                   </tr>
                 </thead>
                 <tbody>
                   @foreach ($gastos->detalles as $detalle)
                   <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $detalle->detalle }}</td>
-                    <td>{{ $detalle->cantidad }}</td>
-                    <td>S/. {{ $detalle->precio }}</td>
-                    <td>S/. {{ $detalle->cantidad * $detalle->precio }}</td>
+                    <td><strong>{{ $gastos->serie }}</strong> I {{ $gastos->nrodoc }}</td> <!-- Documento -->
+                    <td>{{ $gastos->clase->clase ?? 'Sin Clase' }}</td> <!-- Tipo -->
+                    <td>{{ $gastos->titulo }}</td> <!-- Gasto -->
+                    <td>
+                      @if ($gastos->estado == 1)
+                        <span class="right badge badge-success">EMITIDO</span>
+                      @else
+                        <span class="right badge badge-danger">CANCELADO</span>
+                      @endif
+                    </td> <!-- Status -->
+                    <td>{{ $gastos->created_at }}</td> <!-- Fecha -->
+                    <td>{{ $detalle->cantidad }}</td> <!-- Cantidad -->
+                    <td>S/. {{ number_format($detalle->precio, 2) }}</td> <!-- Precio por unidad -->
+                    <td>S/. {{ number_format($detalle->cantidad * $detalle->precio, 2) }}</td> <!-- Monto calculado -->
                   </tr>
                   @endforeach
                 </tbody>
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th colspan="3">TOTAL</th>
-                    <th>S/. {{ $gastos->total }}</th>
+                    <th colspan="7">TOTAL</th>
+                    <th colspan="2">S/. {{ number_format($gastos->total, 2) }}</th> <!-- Total general -->
                   </tr>
                 </thead>
               </table>

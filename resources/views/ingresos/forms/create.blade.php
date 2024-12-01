@@ -91,7 +91,19 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
+
+                                    <!-- Campo para subir el archivo -->
+                                    <div class="col-md-12">
+                                        <label class="form-label">Archivo (PDF)</label>
+                                        <input type="file" name="archivo" class="form-control @error('archivo') is-invalid @enderror" accept="application/pdf">
+                                        @error('archivo')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label">Total</label>
@@ -104,6 +116,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-md-12">
                                         <a href="{{ route('gastos') }}" type="button"
@@ -187,6 +200,7 @@
         <!--/. container-fluid -->
     </section>
 @endsection
+
 @push('scripts')
     <script>
         $(document).ready(function() {
@@ -214,54 +228,48 @@
                 var fila;
                 fila = '<tr class="selected" id="fila' + cont + '">';
                 fila += '<td><button type="button" class="btn btn-danger" onclick="eliminar(' + cont +
-                    ');"><i class="fas fa-trash"></i></button></td>';
-                fila += '<td class="align-middle text-center"><input class="form-control" type="text" name="detalles[' +
-                    cont + '][detalle]" value="' +
-                    detalle + '" readonly></td>';
-                fila += '<td class="align-middle text-center"><input class="form-control" type="number" name="detalles[' +
-                    cont + '][cantidad]" value="' +
-                    cantidad + '" readonly></td>';
-                fila += '<td class="align-middle text-center"><input class="form-control" type="number" name="detalles[' +
-                    cont + '][precio]" value="' +
-                    parseFloat(precio).toFixed(2) + '" readonly></td>';
-                fila += '<td class="align-middle text-center"><strong>S/ ' + parseFloat(subtotal[cont]).toFixed(2) +
-                    '</strong></td>';
+                    ');"><i class="fas fa-trash-alt"></i></button></td>';
+                fila += '<td><input type="hidden" name="detalles[' + cont + '][detalle]" value="' + detalle + '">' +
+                    detalle + '</td>';
+                fila += '<td class="text-center"><input type="hidden" name="detalles[' + cont + '][cantidad]" value="' +
+                    cantidad + '">' + cantidad + '</td>';
+                fila += '<td class="text-center"><input type="hidden" name="detalles[' + cont + '][precio]" value="' + precio +
+                    '">' + precio + '</td>';
+                fila += '<td class="text-center">' + (cantidad * precio) + '</td>';
                 fila += '</tr>';
 
                 cont++;
                 limpiar();
-                $('#total_venta').html("<strong>S/ " + parseFloat(total).toFixed(2) + "</strong>");
-                $('#total').val(parseFloat(total).toFixed(2));
-
                 evaluar();
                 $('#detalles').append(fila);
 
             } else {
-                alert('Competar todos los campos (*)');
+                alert("Error, revisar los datos del detalle.");
             }
-
         }
 
         function limpiar() {
-            $('#pdetalle').val("");
-            $('#pcantidad').val("0");
-            $('#pprecio').val("0");
+            $("#pdetalle").val("");
+            $("#pcantidad").val("");
+            $("#pprecio").val("");
         }
 
         function evaluar() {
-            if (total > 0) {
-                $('#guardar').show();
+            if (cont > 0) {
+                $("#guardar").show();
             } else {
-                $('#guardar').hide();
+                $("#guardar").hide();
             }
+
+            $("#total_venta").html('<strong>S/ ' + total.toFixed(2) + '</strong>');
+            $("#total").val(total.toFixed(2));
         }
 
         function eliminar(index) {
             total = total - subtotal[index];
-            $('#total_venta').html("<strong>S/. " + total + "</strong>");
-            $('#total').val(parseFloat(total).toFixed(2));
-            $('#fila' + index).remove();
-
+            $("#total_venta").html('<strong>S/ ' + total.toFixed(2) + '</strong>');
+            $("#total").val(total.toFixed(2));
+            $("#fila" + index).remove();
             evaluar();
         }
     </script>

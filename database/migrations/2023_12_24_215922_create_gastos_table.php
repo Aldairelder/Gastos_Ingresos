@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('titulo');
             $table->text('descripcion')->nullable();
             $table->double('total');
+            $table->string('archivo'); // Campo para almacenar la ruta del archivo
             $table->boolean('estado')->default(1);
             $table->timestamps();
 

@@ -17,6 +17,7 @@ class Ingresos extends Model
     'titulo',
     'descripcion',
     'total',
+    'archivo',
   ];
 
   public function clase()

@@ -4,7 +4,6 @@
 @section('titulo', 'Ingresos')
 @section('contenido')
 <section class="content">
-  <!-- container-fluid -->
   <div class="container-fluid">
     @if (Session::has('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -15,6 +14,7 @@
       </button>
     </div>
     @endif
+
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">.:. Listado - Ingresos .:. </h3>
@@ -24,10 +24,8 @@
           </div>
         </div>
       </div>
-      <!-- /.card-header -->
       <div class="card-body">
         <div class="row mb-3">
-          <!-- Formulario para Filtrar por Fechas -->
           <div class="col-md-4">
             <label for="fecha_inicio">Fecha de Inicio</label>
             <input type="date" id="fecha_inicio" class="form-control">
@@ -48,9 +46,10 @@
                 <th style="width: 50px">#</th>
                 <th>DOCUMENTO</th>
                 <th>TIPO</th>
-                <th>INGRESO</th>
+                <th>TITULO</th>
                 <th>TOTAL</th>
                 <th>STATUS</th>
+                <th>PDF</th>
                 <th>REGISTRADO</th>
                 <th style="width: 50px"></th>
               </tr>
@@ -71,19 +70,26 @@
                   <span class="right badge badge-danger">CANCELADO</span>
                   @endif
                 </td>
+                <td class="align-middle">
+                  @if ($rs->archivo)
+                    <a href="{{ asset('storage/' . $rs->archivo) }}" target="_blank" class="btn btn-info btn-sm">Ver PDF</a>
+                  @else
+                    <span>No disponible</span>
+                  @endif
+                </td>
                 <td class="align-middle" title="{{ $rs->created_at }}">{{ $rs->created_at->diffForHumans() }}</td>
                 <td class="align-middle">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <a href="{{ route('ingresos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye"></i>VER</a>
+                    <a href="{{ route('ingresos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye">VER</i></a>
                     <a data-target="#modal-delete-{{ $rs->id }}" type="button" data-toggle="modal" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                   </div>
                 </td>
               </tr>
-              @include('ingresos.modal.delete')
+              @includeIf('ingresos.modal.delete')
               @endforeach
             @else
             <tr>
-              <td class="text-center" colspan="7">Sin registros existentes..</td>
+              <td class="text-center" colspan="9">Sin registros existentes..</td>
             </tr>
             @endif
             </tbody>
@@ -92,9 +98,10 @@
                 <th style="width: 50px">#</th>
                 <th>DOCUMENTO</th>
                 <th>TIPO</th>
-                <th>INGRESO</th>
+                <th>TITULO</th>
                 <th>TOTAL</th>
                 <th>STATUS</th>
+                <th>PDF</th>
                 <th>REGISTRADO</th>
                 <th style="width: 50px"></th>
               </tr>
@@ -102,26 +109,20 @@
           </table>
         </div>
       </div>
-      <!-- /.card-body -->
     </div>
-    <!-- /.card -->
   </div>
-  <!--/. container-fluid -->
 </section>
 @endsection
 
 @push('scripts')
-<!-- Incluyendo jQuery y DataTables (con los estilos de Bootstrap para DataTables) -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
-<!-- Estilos de DataTables -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 
 <script>
   $(document).ready(function() {
-    // Inicializar DataTable
     const table = $('#example1').DataTable({
       "language": {
         "lengthMenu": "Mostrar _MENU_ registros por página",
@@ -145,7 +146,6 @@
       }
     });
 
-    // Filtrar por fechas
     $('#filtrar').on('click', function() {
       const fechaInicio = $('#fecha_inicio').val();
       const fechaFin = $('#fecha_fin').val();
@@ -159,7 +159,7 @@
             $(this).hide();
           }
         } else {
-          $(this).show(); // Si no hay filtro de fecha, mostrar todos
+          $(this).show();
         }
       });
     });

@@ -16,10 +16,12 @@ class GastosDetalles extends Model
     'detalle',
     'cantidad',
     'precio'
+    
   ];
 
   public function gasto()
   {
     return $this->belongsTo(Gastos::class, 'idgasto');
   }
+  
 }
