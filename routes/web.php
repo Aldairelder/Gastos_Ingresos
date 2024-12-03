@@ -65,7 +65,7 @@ route::middleware('auth')->group(function () {
   //reportes  
   Route::controller(ReportGastosController::class)->prefix('reportgastos')->group(function () {
     Route::get('', 'index')->name('reportgastos');
-    Route::get('show/{id}', 'show')->name('gastos.show');
+    
 
   });
   Route::controller(ReporteIngresosController::class)->prefix('detalleingresos')->group(function () {
