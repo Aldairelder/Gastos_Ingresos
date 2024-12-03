@@ -85,10 +85,17 @@
                 <td class="align-middle" title="{{ $rs->created_at }}">{{ $rs->created_at->diffForHumans() }}</td>
                 <td class="align-middle">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <a href="{{ route('gastos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye">VER</i></a>
-                    <a data-target="#modal-delete-{{ $rs->id }}" type="button" data-toggle="modal" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                    <!-- Botón de ver con tamaño reducido -->
+                    <a href="{{ route('gastos.show', $rs->id) }}" type="button" class="btn btn-info" style="font-size: 12px; padding: 4px 10px; margin-right: 5px;">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                    
+                    <!-- Botón de eliminar con tamaño reducido -->
+                    <a data-target="#modal-delete-{{ $rs->id }}" type="button" data-toggle="modal" class="btn btn-danger" style="font-size: 12px; padding: 4px 10px;">
+                      <i class="fas fa-trash"></i>
+                    </a>
                   </div>
-                </td>
+                </td>
               </tr>
               @includeIf('gastos.modal.delete')
               @endforeach

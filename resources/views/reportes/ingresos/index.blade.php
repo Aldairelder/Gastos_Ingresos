@@ -19,18 +19,17 @@
       <div class="card-header">
         <h3 class="card-title ">.:. Reporte - Ingresos .:. </h3>
         <div class="card-tools">
-          <div class="card-tools">
-            <div class="btn btn-tool">
-              <a class="btn btn-success no-print" href="#">
-                <i class="fas fa-file-excel"></i>
-              </a>
-              <a class="btn btn-light no-print" onclick="javascript:window.print()">
-                <i class="fas fa-print"></i>
-              </a>
-            </div>
+          <div class="btn-group">
+            <!-- Botón de Imprimir -->
+            <a class="btn btn-light pull-right no-print" onclick="javascript:window.print()" style="background-color: rgb(135, 135, 211); padding: 5px; border-radius: 5px;">
+              <img src="{{ asset('dist/img/imprimir.png') }}" alt="Imprimir" style="width: 30px; height: auto;">
+            </a>
+            <!-- Botón de Exportar a Excel -->
+            <button id="exportarExcel" class="btn btn-light pull-right no-print" style="background-color: rgb(42, 100, 56); padding: 5px; border-radius: 5px;">
+              <img src="{{ asset('dist/img/excel.png') }}" alt="Excel" style="width: 30px; height: auto;">
+            </button>
           </div>
-          
-          </div>
+        </div>
       </div>
       <!-- /.card-header -->
       <div class="card-body">
@@ -61,7 +60,7 @@
                 <th>STATUS</th>
                 <th>PDF</th>
                 <th>FECHA</th>
-                <th  class="no-print" style="width: 50px"></th>
+                <th class="no-print" style="width: 50px"></th>
               </tr>
             </thead>
             <tbody id="ingreso-list">
@@ -90,9 +89,9 @@
                 <td class="align-middle">{{ $rs->created_at }}</td>
                 <td class="align-middle no-print">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <a href="{{ route('ingresos.show', $rs->id) }}" type="button" class="btn btn-info"><i class="fas fa-eye">VER</i></a>
+                    <a href="{{ route('ingresos.show', $rs->id) }}" type="button" class="btn btn-info" style="font-size: 12px; padding: 4px 10px;"><i class="fas fa-eye">VER</i></a>
                   </div>
-                </td>
+                </td>
               </tr>
               @includeIf('ingresos.modal.delete')
               @endforeach
@@ -131,6 +130,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 
 <!-- Estilos de DataTables -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
@@ -178,6 +178,34 @@
           $(this).show(); // Si no hay filtro de fecha, mostrar todos
         }
       });
+    });
+
+    // Función para exportar a Excel
+    $('#exportarExcel').on('click', function() {
+      // Eliminar la columna 'VER' (última columna) de la tabla antes de exportar
+      var tableClone = $('#example1').clone();
+      tableClone.find('td:last-child, th:last-child').remove(); // Eliminar última columna (columna 'VER')
+
+      // Crear una hoja de Excel con el título antes de la tabla
+      var ws = XLSX.utils.aoa_to_sheet([['.:. Listado - Ingresos .:.']]);
+      var wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Ingresos');
+
+      // Convertir la tabla en formato de arreglo de filas (sin la columna 'VER')
+      var tableData = [];
+      tableClone.find('tr').each(function() {
+        var row = [];
+        $(this).find('th, td').each(function() {
+          row.push($(this).text().trim());
+        });
+        tableData.push(row);
+      });
+
+      // Agregar los datos de la tabla a la hoja de Excel
+      XLSX.utils.sheet_add_aoa(wb.Sheets['Ingresos'], tableData, { origin: 'A2' });
+
+      // Descargar el archivo Excel
+      XLSX.writeFile(wb, 'ingresos.xlsx');
     });
   });
 </script>

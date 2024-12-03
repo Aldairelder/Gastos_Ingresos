@@ -6,6 +6,7 @@ use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\GastosController;
 use App\Http\Controllers\ReportGastosController;
 use App\Http\Controllers\ReporteIngresosController;
+use App\Http\Controllers\Reporte1IngresosController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IngresosController;
 use App\Http\Controllers\PermisosController;
@@ -61,14 +62,21 @@ route::middleware('auth')->group(function () {
     Route::put('editar/{id}', 'update')->name('gastos.update');
     Route::delete('destroy/{id}', 'destroy')->name('gastos.destroy');
   });
+  //reportes  
   Route::controller(ReportGastosController::class)->prefix('reportgastos')->group(function () {
     Route::get('', 'index')->name('reportgastos');
     Route::get('show/{id}', 'show')->name('gastos.show');
 
   });
-  Route::controller(ReporteIngresosController::class)->prefix('reportingresos')->group(function () {
-    Route::get('', 'index')->name('reportingresos');
+  Route::controller(ReporteIngresosController::class)->prefix('detalleingresos')->group(function () {
+    Route::get('', 'index')->name('detalleingresos');
     Route::get('show/{id}', 'show')->name('ingresos.show');
+
+  });
+  //Reporte 1
+  Route::controller(Reporte1IngresosController::class)->prefix('detalledereporte')->group(function () {
+    Route::get('', 'index')->name('detalledereporte');
+    Route::get('show/{id}', 'show')->name('ingresos.show1');
 
   });
   Route::controller(EmpresasController::class)->prefix('empresas')->group(function () {

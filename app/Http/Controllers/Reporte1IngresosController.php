@@ -10,14 +10,14 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ReporteIngresosController extends Controller
+class Reporte1IngresosController extends Controller
 {
   
   public function index()
   {
     $ingresos = Ingresos::orderby('id', 'DESC')
       ->get();
-    return view('ingresos.index', compact('ingresos'));
+    return view('reportes.ingresos.index', compact('ingresos'));
   }
 
   
@@ -25,7 +25,7 @@ class ReporteIngresosController extends Controller
   public function show(string $id)
   {
     $ingresos = Ingresos::with('clase', 'entidad')->findOrFail($id);
-    return view('ingresos.show', compact('detalleingresos'));
+    return view('reportes.ingresos.show1', compact('detalledereporte'));
   }
 
 }

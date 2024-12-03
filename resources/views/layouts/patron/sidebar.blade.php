@@ -105,7 +105,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('reportingresos') }}" class="nav-link {{ Request::is('reportingresos') ? 'active' : '' }}">
+                    <a href="{{ route('detalledereporte') }}" class="nav-link {{ Request::is('reportingresos') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-dollar-sign text-success"></i>
                         <p>Reporte 2 - Ingresos</p>
                     </a>

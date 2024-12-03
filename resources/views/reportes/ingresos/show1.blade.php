@@ -110,7 +110,7 @@
 
           <div class="row no-print">
             <div class="col-12">
-              <a href="{{ route('ingresos') }}" class="btn btn-default float-right" style="margin-right: 5px;">REGRESAR</a>
+              <a href="{{ route('detalledereporte') }}" class="btn btn-default float-right" style="margin-right: 5px;">REGRESAR</a>
             </div>
           </div>
           
