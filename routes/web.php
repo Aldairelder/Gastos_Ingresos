@@ -57,7 +57,7 @@ route::middleware('auth')->group(function () {
 
     Route::get('registro', 'create')->name('gastos.create');
     Route::post('store', 'store')->name('gastos.store');
-    Route::get('show/{id}', 'show')->name('gastos.show');
+   
     Route::get('editar/{id}', 'edit')->name('gastos.edit');
     Route::put('editar/{id}', 'update')->name('gastos.update');
     Route::delete('destroy/{id}', 'destroy')->name('gastos.destroy');
@@ -65,7 +65,7 @@ route::middleware('auth')->group(function () {
   //reportes  
   Route::controller(ReportGastosController::class)->prefix('reportgastos')->group(function () {
     Route::get('', 'index')->name('reportgastos');
-    
+    Route::get('show/{id}', 'show')->name('gastos.show');
 
   });
   Route::controller(ReporteIngresosController::class)->prefix('detalleingresos')->group(function () {
