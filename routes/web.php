@@ -106,7 +106,7 @@ route::middleware('auth')->group(function () {
 
     Route::get('registro', 'create')->name('ingresos.create');
     Route::post('store', 'store')->name('ingresos.store');
-    Route::get('show/{id}', 'show')->name('ingresos.show');
+   
     Route::get('editar/{id}', 'edit')->name('ingresos.edit');
     Route::put('editar/{id}', 'update')->name('ingresos.update');
     Route::delete('destroy/{id}', 'destroy')->name('ingresos.destroy');
