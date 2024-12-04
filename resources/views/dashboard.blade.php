@@ -16,8 +16,6 @@
           </div>
           <div class="icon">
             <i class="ion ion-arrow-down-c"></i>
-            <i class="ion ion-arrow-down-c"></i>
-            <i class="ion ion-arrow-down-c"></i>
           </div>
           <a href="{{ route('ingresos') }}" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
         </div>
@@ -30,8 +28,6 @@
             <h3>+ S/.{{ $montoIngresos }}</h3>
           </div>
           <div class="icon">
-            <i class="ion ion-stats-bars"></i>
-            <i class="ion ion-stats-bars"></i>
             <i class="ion ion-stats-bars"></i>
           </div>
           <a href="#" class="small-box-footer nav-link text-black disabled"><i><br></i></a>
@@ -46,8 +42,6 @@
           </div>
           <div class="icon">
             <i class="ion ion-arrow-up-c"></i>
-            <i class="ion ion-arrow-up-c"></i>
-            <i class="ion ion-arrow-up-c"></i>
           </div>
           <a href="{{ route('gastos') }}" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
         </div>
@@ -61,8 +55,6 @@
           </div>
           <div class="icon">
             <i class="ion ion-pie-graph"></i>
-            <i class="ion ion-pie-graph"></i>
-            <i class="ion ion-pie-graph"></i>
           </div>
           <a href="#" class="small-box-footer nav-link text-black disabled"><i><br></i></a>
         </div>
@@ -72,11 +64,9 @@
         <div class="small-box text-white" style="background-color: seagreen">
           <div class="inner">
             <h3>MONTO NETO</h3>
-            <h3>+ S/.{{ $operacion}}</h3>
+            <h3>+ S/.{{ $operacion }}</h3>
           </div>
           <div class="icon">
-            <i class="ion ion-cash"></i>
-            <i class="ion ion-cash"></i>
             <i class="ion ion-cash"></i>
           </div>
           <a href="#" class="small-box-footer nav-link text-black disabled"><i><br></i></a>
@@ -94,19 +84,12 @@
               <i class="fas fa-chart-pie mr-1"></i>
               ESTADISTICAS
             </h3>
-            <div class="card-tools">
-              <ul class="nav nav-pills ml-auto">
-                <li class="nav-item">
-                  <a class="nav-link disabled bg-success" href="#sales-chart" data-toggle="tab">+</a>
-                </li>
-              </ul>
-            </div>
           </div><!-- /.card-header -->
           <div class="card-body">
             <div class="tab-content p-0">
-              <!-- Donut Chart -->
-              <div class="chart tab-pane active" id="donut-chart" style="position: relative; height: 300px;">
-                <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              <!-- Bar Chart -->
+              <div class="chart tab-pane active" id="bar-chart" style="position: relative; height: 300px;">
+                <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
             </div>
           </div><!-- /.card-body -->
@@ -123,13 +106,6 @@
               <i class="fas fa-chart-pie mr-1"></i>
               INGRESOS VS GASTOS
             </h3>
-            <div class="card-tools">
-              <ul class="nav nav-pills ml-auto">
-                <li class="nav-item">
-                  <a class="nav-link disabled bg-success" href="#sales-chart" data-toggle="tab">+</a>
-                </li>
-              </ul>
-            </div>
           </div><!-- /.card-header -->
           <div class="card-body">
             <div class="tab-content p-0">
@@ -142,9 +118,104 @@
         </div>
         <!-- /.card -->
       </section>
-
     </div>
   </div>
   <!--/. container-fluid -->
 </section>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Datos para el gráfico de barras
+  var ctx = document.getElementById('barChart').getContext('2d');
+  var barChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['INGRESOS', 'RECAUDADO', 'GASTOS', 'DESEMBOLSAR', 'MONTO NETO'],
+      datasets: [{
+        label: 'S/. (Monto)',
+        data: [
+          {{ $totalIngresos }},  // Monto total de INGRESOS
+          {{ $montoIngresos }},  // Monto RECAUDADO
+          {{ $totalGastos }},    // Monto total de GASTOS
+          {{ $montoGastos }},    // Monto DESEMBOLSAR
+          {{ $operacion }}       // Monto NETO
+        ],
+        backgroundColor: [
+          'rgba(0, 123, 255, 0.5)', // INGRESOS
+          'rgba(40, 167, 69, 0.5)', // RECAUDADO
+          'rgba(255, 193, 7, 0.5)', // GASTOS
+          'rgba(220, 53, 69, 0.5)', // DESEMBOLSAR
+          'rgba(40, 167, 69, 0.7)', // MONTO NETO
+        ],
+        borderColor: [
+          'rgba(0, 123, 255, 1)',
+          'rgba(40, 167, 69, 1)',
+          'rgba(255, 193, 7, 1)',
+          'rgba(220, 53, 69, 1)',
+          'rgba(40, 167, 69, 1)',
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return 'S/. ' + value.toLocaleString();  // Formatear valores en soles
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Datos para el gráfico de torta (Ingresos vs Gastos)
+  var ingresos = {{ $totalIngresos }};
+  var gastos = {{ $totalGastos }};
+  var total = ingresos + gastos;
+  var ctxDonut = document.getElementById('donut-chart-canvas').getContext('2d');
+
+  var donutChart = new Chart(ctxDonut, {
+    type: 'doughnut',
+    data: {
+      labels: ['INGRESOS', 'GASTOS'],
+      datasets: [{
+        data: [ingresos, gastos],
+        backgroundColor: ['#007bff', '#ffcc00'], // Colores contrastantes para mejor visibilidad
+        borderColor: ['#0056b3', '#e0a800'], // Bordes oscuros para el contraste
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(tooltipItem) {
+              var percentage = Math.round(tooltipItem.raw / total * 100);
+              return tooltipItem.label + ': ' + tooltipItem.raw.toLocaleString() + ' ( ' + percentage + '% )';
+            }
+          }
+        },
+        datalabels: {
+          display: true,
+          color: '#fff',
+          formatter: function(value, context) {
+            var percentage = Math.round(value / total * 100);
+            return percentage + '%'; // Mostrar porcentaje directamente
+          },
+          font: {
+            weight: 'bold',
+            size: 16 // Tamaño de fuente mayor para mejor legibilidad
+          }
+        }
+      }
+    }
+  });
+</script>
+
 @endsection
