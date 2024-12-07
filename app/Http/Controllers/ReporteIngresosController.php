@@ -25,7 +25,7 @@ class ReporteIngresosController extends Controller
   public function show(string $id)
   {
     $ingresos = Ingresos::with('clase', 'entidad')->findOrFail($id);
-    return view('ingresos.show', compact('detalleingresos'));
+    return view('ingresos.show', compact('ingresos'));
   }
 
 }
